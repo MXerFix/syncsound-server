@@ -16,6 +16,9 @@ app.use(express.json())
 app.use(express.static(path.resolve(__dirname, 'static')))
 app.use(fileUpload({}))
 app.use('/api', router)
+app.get('/', (req, res) => {
+  return res.json({message: "its okay"})
+})
 
 //errors
 app.use(errorHandler)
@@ -31,3 +34,5 @@ const start = async () => {
 }
 
 start()
+
+module.exports = app
