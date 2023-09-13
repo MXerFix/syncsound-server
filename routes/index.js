@@ -14,6 +14,6 @@ router.use('/brand', brandRouter)
 router.use('/device', deviceRouter)
 router.use('/basket', basketRouter)
 router.use('/offer', offerRouter)
-router.get('/email/me', EmailSender.toMe)
+router.post('/email/me', EmailSender.toMe)
 
 module.exports = router
