@@ -6,7 +6,7 @@ const brandRouter = require('./brandRouter')
 const typeRouter = require('./typeRouter')
 const basketRouter = require('./basketRouter')
 const offerRouter = require('./offerRouter')
-const { send } = require('../email/sender')
+const EmailSender = require('../email/sender')
 
 router.use('/user', userRouter)
 router.use('/type', typeRouter)
@@ -14,6 +14,6 @@ router.use('/brand', brandRouter)
 router.use('/device', deviceRouter)
 router.use('/basket', basketRouter)
 router.use('/offer', offerRouter)
-router.get('/email', send)
+router.get('/email/me', EmailSender.toMe)
 
 module.exports = router
