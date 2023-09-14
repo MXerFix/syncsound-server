@@ -1,6 +1,6 @@
 const { Resend } = require("resend");
 
-const resend = new Resend("re_ZX2YDkKq_4RsqotvU4hkoaBuhfBsx3Fap");
+const resend = new Resend(process.env.EMAIL_API_KEY);
 
 class EmailSender {
 
