@@ -73,24 +73,24 @@ class DeviceController {
         return res.json(device);
       }
 
-      else if (color) {
-        const device = await Device.findOne({ where: { name: deviceName } });
-        await DeviceColor.create({
-          color: color,
-          deviceId: device.id,
-        });
-        additionalImages.forEach((image) => {
-          let fileName = uuid.v4() + '.png'
-          image.mv(path.resolve(__dirname, '../static', fileName))
-          ImageForColor.create({
-            color: color,
-            deviceId: device.id,
-            img: fileName
-          })
-        })
+      // else if (color) {
+      //   const device = await Device.findOne({ where: { name: deviceName } });
+      //   await DeviceColor.create({
+      //     color: color,
+      //     deviceId: device.id,
+      //   });
+      //   additionalImages.forEach((image) => {
+      //     let fileName = uuid.v4() + '.png'
+      //     image.mv(path.resolve(__dirname, '../static', fileName))
+      //     ImageForColor.create({
+      //       color: color,
+      //       deviceId: device.id,
+      //       img: fileName
+      //     })
+      //   })
 
-        return res.json(device);
-      }
+      //   return res.json(device);
+      // }
 
       
     } catch (e) {
