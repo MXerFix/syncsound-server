@@ -33,6 +33,17 @@ const start = async () => {
   }
 }
 
+const start80 = async () => {
+  try {
+    await sequelize.authenticate()
+    await sequelize.sync()
+    app.listen(80, () => {console.log(`server started on port ${80}`)})
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 start()
+start80()
 
 module.exports = app
