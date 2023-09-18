@@ -7,6 +7,7 @@ const typeRouter = require('./typeRouter')
 const basketRouter = require('./basketRouter')
 const offerRouter = require('./offerRouter')
 const EmailSender = require('../email/sender')
+const outsideApiController = require('../controllers/outsideApiController')
 
 router.use('/user', userRouter)
 router.use('/type', typeRouter)
@@ -15,5 +16,6 @@ router.use('/device', deviceRouter)
 router.use('/basket', basketRouter)
 router.use('/offer', offerRouter)
 router.post('/email/me', EmailSender.toMe)
+router.get('/boxberry/points', outsideApiController.getBoxberryPoints)
 
 module.exports = router
