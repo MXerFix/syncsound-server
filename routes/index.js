@@ -17,5 +17,7 @@ router.use('/basket', basketRouter)
 router.use('/offer', offerRouter)
 router.post('/email/me', EmailSender.toMe)
 router.get('/boxberry/points', outsideApiController.getBoxberryPoints)
+router.get('/boxberry/cities', outsideApiController.getBoxberryCities)
+router.get('/boxberry/price', outsideApiController.getBoxberryPrice)
 
 module.exports = router
