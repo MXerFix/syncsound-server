@@ -20,13 +20,13 @@ class OutsideApiController {
     });
     const idempotenceKey = v4();
 
-    // try {
-    //   const payment = await checkout.createPayment(payload, idempotenceKey);
-    //   console.log(payment);
-    //   return res.json(payment);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const payment = await checkout.createPayment(payload, idempotenceKey);
+      console.log(payment);
+      return res.json(payment);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getBoxberryCities(req, res, next) {
