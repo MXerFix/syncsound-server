@@ -7,12 +7,12 @@ const { v4 } = require("uuid");
 class OutsideApiController {
   async createPaymentOfferYOOKASSA(req, res, next) {
     const { payload } = req.body;
-    console.log(payload)
+    console.log(payload);
 
     const shopID = process.env.PAYMENT_SHOP_ID;
-    const secretKey = process.env.PAYMENT_SECRET_KEY
+    const secretKey = process.env.PAYMENT_SECRET_KEY;
 
-    console.log(shopID, secretKey)
+    console.log(shopID, secretKey);
 
     const checkout = new YooCheckout({
       shopId: shopID,
@@ -26,6 +26,28 @@ class OutsideApiController {
       return res.json(payment);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async checkPaymentOfferYOOKASSA(req, res, next) {
+    const { id } = req.body;
+
+    const shopID = process.env.PAYMENT_SHOP_ID;
+    const secretKey = process.env.PAYMENT_SECRET_KEY;
+
+    const checkout = new YooCheckout({
+      shopId: shopID,
+      secretKey: secretKey,
+    });
+
+    const paymentId = id;
+
+    try {
+      const payment = await checkout.getPayment(paymentId);
+      console.log(payment);
+      res.json(payment)
+    } catch (error) {
+      console.error(error);
     }
   }
 
