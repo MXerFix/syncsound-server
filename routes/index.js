@@ -20,5 +20,6 @@ router.get('/boxberry/points', outsideApiController.getBoxberryPoints)
 router.get('/boxberry/cities', outsideApiController.getBoxberryCities)
 router.get('/boxberry/price', outsideApiController.getBoxberryPrice)
 router.post('/payment/create', outsideApiController.createPaymentOfferYOOKASSA)
+router.post('/payment/check', outsideApiController.checkPaymentOfferYOOKASSA)
 
 module.exports = router
