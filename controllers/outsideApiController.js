@@ -7,6 +7,7 @@ const { v4 } = require("uuid");
 class OutsideApiController {
   async createPaymentOfferYOOKASSA(req, res, next) {
     const { payload } = req.body;
+    console.log(payload)
 
     const shopID = process.env.PAYMENT_SHOP_ID;
     const secretKey = process.env.PAYMENT_SECRET_KEY
@@ -19,13 +20,13 @@ class OutsideApiController {
     });
     const idempotenceKey = v4();
 
-    try {
-      const payment = await checkout.createPayment(payload, idempotenceKey);
-      console.log(payment);
-      return res.json(payment);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const payment = await checkout.createPayment(payload, idempotenceKey);
+    //   console.log(payment);
+    //   return res.json(payment);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   async getBoxberryCities(req, res, next) {
