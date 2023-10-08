@@ -37,7 +37,8 @@ class OfferController {
     const { status, id } = req.body
     const offer = await Offer.findOne({ where: { id: id } });
     if (offer) {
-      offer.set('status', status)
+      offer.status = status
+      await offer.save()
       res.json({message: `offer status was changed on ${status}`})
     } else {
       return next(ApiError.badRequest("offer with that id is not defined"))
