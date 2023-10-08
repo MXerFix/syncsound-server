@@ -2,25 +2,30 @@ const { default: axios } = require("axios");
 const ApiError = require("../error/ApiError");
 const fetch = require("node-fetch");
 const { YooCheckout } = require("@a2seven/yoo-checkout");
-const { v4 } = require('uuid')
-
+const { v4 } = require("uuid");
 
 class OutsideApiController {
-
   async createPaymentOfferYOOKASSA(req, res, next) {
-    const { payload } = req.body
-    const checkout = new YooCheckout({ shopId: process.env.PAYMENT_SHOP_ID, secretKey: process.env.PAYMENT_SECRET_KEY })
-    const idempotenceKey = v4()
+    const { payload } = req.body;
+
+    const shopID = process.env.PAYMENT_SHOP_ID;
+    const secretKey = process.env.PAYMENT_SECRET_KEY
+
+    console.log(shopID, secretKey)
+
+    const checkout = new YooCheckout({
+      shopId: shopID,
+      secretKey: secretKey,
+    });
+    const idempotenceKey = v4();
 
     try {
-      const payment = await checkout.createPayment(payload, idempotenceKey)
-      console.log(payment)
-      return res.json(payment)
+      const payment = await checkout.createPayment(payload, idempotenceKey);
+      console.log(payment);
+      return res.json(payment);
     } catch (error) {
-      console.log(error)
-      console.log(1)
+      console.log(error);
     }
-
   }
 
   async getBoxberryCities(req, res, next) {
