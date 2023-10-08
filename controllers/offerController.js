@@ -2,13 +2,13 @@ const { User, Offer, OfferDevice, Device } = require("../models/models");
 
 class OfferController {
   async createOffer(req, res) {
-    const { userName, userTel, userEmail, sum } = req.body;
+    const { userName, userTel, userEmail, sum, payment } = req.body;
     const user = await User.findOne({ where: { email: userEmail } });
     if (!user) {
-      const offer = await Offer.create({ userName: userName, userTel: userTel, userEmail: userEmail, sum: sum, userId: null });
+      const offer = await Offer.create({ userName: userName, userTel: userTel, userEmail: userEmail, sum: sum, userId: null, payment: payment });
       return res.json({ message: `Заказ без авторизации успешно создан`, offer });
     } else {
-      const offer = await Offer.create({ userName: user.name, userEmail: user.email, userTel: user.tel, sum: sum, userId: user.id });
+      const offer = await Offer.create({ userName: user.name, userEmail: user.email, userTel: user.tel, sum: sum, userId: user.id, payment: payment });
       return res.json({ message: `Заказ с авторизацией успешно создан`, offer });
     }
   }
