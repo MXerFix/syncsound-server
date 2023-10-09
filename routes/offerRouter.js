@@ -7,5 +7,6 @@ const router = new Router()
 router.post('/addoffer', offerController.createOffer)
 router.post('/addofferdevice', offerController.createOfferDevice)
 router.post('/changeofferstatus', offerController.changeOfferStatus)
+router.post('/', offerController.getOffer)
 
 module.exports = router
