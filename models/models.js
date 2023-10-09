@@ -82,7 +82,8 @@ const Offer = sequelize.define('offer', {
   userName: {type: DataTypes.STRING, allowNull: false},
   userTel: {type: DataTypes.STRING, allowNull: false},
   userEmail: {type: DataTypes.STRING, allowNull: false},
-  userId: {type: DataTypes.INTEGER, allowNull: true}
+  userId: {type: DataTypes.INTEGER, allowNull: true},
+  address: {type: DataTypes.JSON, allowNull: true}
 })
 
 const OfferDevice = sequelize.define('offer_device', {

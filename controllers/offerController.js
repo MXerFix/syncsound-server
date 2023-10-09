@@ -3,7 +3,7 @@ const { User, Offer, OfferDevice, Device } = require("../models/models");
 
 class OfferController {
   async createOffer(req, res) {
-    const { userName, userTel, userEmail, sum, payment } = req.body;
+    const { userName, userTel, userEmail, sum, payment, address } = req.body;
     const user = (await User.findOne({ where: { email: userEmail } })) ?? false;
     if (!user) {
       try {
@@ -14,6 +14,7 @@ class OfferController {
           sum: sum,
           userId: null,
           payment: payment,
+          address: address
         });
         return res.json({
           message: `Заказ без авторизации успешно создан`,
@@ -31,6 +32,7 @@ class OfferController {
           sum: sum,
           userId: user.id,
           payment: payment,
+          address: address
         });
         return res.json({
           message: `Заказ с авторизацией успешно создан`,
