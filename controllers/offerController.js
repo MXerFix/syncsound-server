@@ -4,20 +4,40 @@ const { User, Offer, OfferDevice, Device } = require("../models/models");
 class OfferController {
   async createOffer(req, res) {
     const { userName, userTel, userEmail, sum, payment } = req.body;
-    const user = await User.findOne({ where: { email: userEmail } }) ?? false;
+    const user = (await User.findOne({ where: { email: userEmail } })) ?? false;
     if (!user) {
       try {
-        const offer = await Offer.create({ userName: userName, userTel: userTel, userEmail: userEmail, sum: sum, userId: null, payment: payment });
-        return res.json({ message: `Заказ без авторизации успешно создан`, offer });
+        const offer = await Offer.create({
+          userName: userName,
+          userTel: userTel,
+          userEmail: userEmail,
+          sum: sum,
+          userId: null,
+          payment: payment,
+        });
+        return res.json({
+          message: `Заказ без авторизации успешно создан`,
+          offer,
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       try {
-        const offer = await Offer.create({ userName: user.name, userEmail: user.email, userTel: user.tel, sum: sum, userId: user.id, payment: payment });
-        return res.json({ message: `Заказ с авторизацией успешно создан`, offer });
+        const offer = await Offer.create({
+          userName: user.name,
+          userEmail: user.email,
+          userTel: user.tel,
+          sum: sum,
+          userId: user.id,
+          payment: payment,
+        });
+        return res.json({
+          message: `Заказ с авторизацией успешно создан`,
+          offer,
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   }
@@ -34,17 +54,27 @@ class OfferController {
   }
 
   async changeOfferStatus(req, res, next) {
-    const { status, id } = req.body
+    const { status, id } = req.body;
     const offer = await Offer.findOne({ where: { id: id } });
     if (offer) {
-      offer.status = status
-      await offer.save()
-      res.json({message: `offer status was changed on ${status}`})
+      offer.status = status;
+      await offer.save();
+      res.json({ message: `offer status was changed on ${status}` });
     } else {
-      return next(ApiError.badRequest("offer with that id is not defined"))
+      return next(ApiError.badRequest("offer with that id is not defined"));
     }
   }
 
+  async getOffer(req, res, next) {
+    const { id } = req.body;
+    const offer = await Offer.findOne({ where: { id: id } });
+
+    if (offer) {
+      res.json({ offer });
+    } else {
+      return next(ApiError.badRequest("offer with that id is not defined"));
+    }
+  }
 }
 
 module.exports = new OfferController();
