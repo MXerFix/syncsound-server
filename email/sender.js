@@ -10,7 +10,7 @@ class EmailSender {
     try {
       const data = await resend.emails.send({
         from: "info@syncsound.ru",
-        to: [emailData.to],
+        to: emailData.to,
         subject: emailData.subject,
         html: emailHTML,
       });
