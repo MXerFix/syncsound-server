@@ -5,7 +5,7 @@ const User = sequelize.define('user', {
   id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
   name: {type: DataTypes.STRING, defaultValue: 'Unknown'},
   email: {type: DataTypes.STRING, unique:true},
-  tel: {type: DataTypes.STRING, unique:true, defaultValue: ''},
+  tel: {type: DataTypes.STRING, unique:true, allowNull: true},
   password: {type: DataTypes.STRING},
   role: {type: DataTypes.STRING, defaultValue:"USER"},
 })
@@ -20,12 +20,13 @@ const BasketDevice = sequelize.define('basket_device', {
 
 const Device = sequelize.define('device', {
   id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-  name: {type: DataTypes.STRING, unique:true, allowNull:false},
+  name: {type: DataTypes.STRING, unique:false, allowNull:false},
   description: {type: DataTypes.STRING, allowNull:false},
   price: {type:DataTypes.INTEGER, allowNull:false},
   oldPrice: {type:DataTypes.INTEGER},
   rating: {type: DataTypes.INTEGER, defaultValue:0},
   img: {type: DataTypes.STRING, allowNull:false},
+  color: {type: DataTypes.STRING, allowNull: false},
   brandName: { type: DataTypes.STRING, allowNull: false },
   brandId: {type: DataTypes.INTEGER},
   categoryName: { type: DataTypes.STRING, allowNull: false },
@@ -35,7 +36,9 @@ const Device = sequelize.define('device', {
 const PagedDevice = sequelize.define('paged_device', {
   id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
   bigDescription: {type: DataTypes.STRING, allowNull:false},
-  deviceId: {type: DataTypes.INTEGER, allowNull: false}
+  device_info: {type: DataTypes.JSON, allowNull:false },
+  device_additions: {type: DataTypes.JSON, allowNull: true},
+  deviceId: {type: DataTypes.INTEGER, allowNull: false},
 })
 
 const DeviceColor = sequelize.define('device_color', {
@@ -69,6 +72,12 @@ const Brand = sequelize.define('brand', {
   name: {type: DataTypes.STRING, unique:true, allowNull:false}
 })
 
+const Color = sequelize.define('default_color', {
+  id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+  name: {type: DataTypes.STRING, unique:true, allowNull:false},
+  value: {type: DataTypes.STRING, unique: false, allowNull: false}
+})
+
 const Rating = sequelize.define('rating', {
   id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
   rate: {type: DataTypes.INTEGER, allowNull:false}
@@ -77,6 +86,7 @@ const Rating = sequelize.define('rating', {
 const Offer = sequelize.define('offer', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   sum: {type: DataTypes.INTEGER, allowNull: false},
+  delivery_price: { type: DataTypes.INTEGER, allowNull: true },
   status: {type: DataTypes.STRING, allowNull: false, defaultValue: 'Создан'},
   payment: {type: DataTypes.STRING, allowNull: false, defaultValue:'when_get'},
   userName: {type: DataTypes.STRING, allowNull: false},
@@ -118,6 +128,9 @@ Device.belongsTo(Type)
 Brand.hasMany(Device)
 Device.belongsTo(Brand)
 
+Color.hasMany(Device)
+Device.belongsTo(Color)
+
 Device.hasMany(Rating)
 Rating.belongsTo(Device)
 
@@ -141,5 +154,5 @@ Brand.belongsToMany(Type, {through: TypeBrand })
 
 
 module.exports = {
-  User, Basket, BasketDevice, Device, DeviceColor, PagedDevice, Type, Brand, Rating, TypeBrand, DeviceInfo, ImageForColor, Offer, OfferDevice
+  User, Basket, BasketDevice, Device, DeviceColor, PagedDevice, Color, Type, Brand, Rating, TypeBrand, DeviceInfo, ImageForColor, Offer, OfferDevice
 }

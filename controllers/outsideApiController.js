@@ -7,12 +7,12 @@ const { v4 } = require("uuid");
 class OutsideApiController {
   async createPaymentOfferYOOKASSA(req, res, next) {
     const { payload } = req.body;
-    console.log(payload);
+    // console.log(payload);
 
     const shopID = process.env.PAYMENT_SHOP_ID;
     const secretKey = process.env.PAYMENT_SECRET_KEY;
 
-    console.log(shopID, secretKey);
+    // console.log(shopID, secretKey);
 
     const checkout = new YooCheckout({
       shopId: shopID,
@@ -22,7 +22,7 @@ class OutsideApiController {
 
     try {
       const payment = await checkout.createPayment(payload, idempotenceKey);
-      console.log(payment);
+      // console.log(payment);
       return res.json(payment);
     } catch (error) {
       console.log(error);
@@ -44,8 +44,8 @@ class OutsideApiController {
 
     try {
       const payment = await checkout.getPayment(paymentId);
-      console.log(payment);
-      res.json(payment)
+      // console.log(payment);
+      res.json(payment);
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +83,7 @@ class OutsideApiController {
 
   async getBoxberryPrice(req, res, next) {
     const { target, sum, zip } = req.query;
-    console.log(target, sum, zip);
+    // console.log(target, sum, zip);
     // http://api.boxberry.ru/json.php?token=XXXXXXXXXX&method=DeliveryCosts&weight=500&target=010&ordersum=0&deliverysum=0&targetstart=010&height=120&width=80&depth=50&zip=624000&paysum=100
     try {
       if (target) {
@@ -92,7 +92,7 @@ class OutsideApiController {
             `http://api.boxberry.ru/json.php?token=67c2b6ec9672bb5fa86eb0ac27629b9a&method=DeliveryCosts&weight=500&target=${target}&ordersum=${sum}&height=120&width=80&depth=50`
           )
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             return res.json(response.data);
           });
       } else if (zip) {
@@ -101,10 +101,26 @@ class OutsideApiController {
             `http://api.boxberry.ru/json.php?token=67c2b6ec9672bb5fa86eb0ac27629b9a&method=DeliveryCosts&weight=500&zip=${zip}&ordersum=${sum}&height=120&width=80&depth=50`
           )
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             return res.json(response.data);
           });
       }
+    } catch (error) {
+      console.log(error);
+      next(ApiError.forbidden("Fetch data error"));
+    }
+  }
+
+  async getBoxberryZip(req, res, next) {
+    try {
+      await axios
+        .get(
+          `https://api.boxberry.ru/json.php?token=${process.env.BOXBERRY_TOKEN}&method=ListZips`
+        )
+        .then(response => {
+          // console.log(response.data);
+          return res.json(response.data);
+        });
     } catch (error) {
       console.log(error);
       next(ApiError.forbidden("Fetch data error"));
