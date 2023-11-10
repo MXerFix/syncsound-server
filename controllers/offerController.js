@@ -3,7 +3,7 @@ const { User, Offer, OfferDevice, Device } = require("../models/models");
 
 class OfferController {
   async createOffer(req, res) {
-    const { userName, userTel, userEmail, sum, payment, address } = req.body;
+    const { userName, userTel, userEmail, sum, payment, address, delivery_price } = req.body;
     const user = (await User.findOne({ where: { email: userEmail } })) ?? false;
     if (!user) {
       try {
@@ -14,7 +14,8 @@ class OfferController {
           sum: sum,
           userId: null,
           payment: payment,
-          address: address
+          address: address,
+          delivery_price: delivery_price ?? 0
         });
         return res.json({
           message: `Заказ без авторизации успешно создан`,
@@ -32,7 +33,8 @@ class OfferController {
           sum: sum,
           userId: user.id,
           payment: payment,
-          address: address
+          address: address,
+          delivery_price: delivery_price ?? 0
         });
         return res.json({
           message: `Заказ с авторизацией успешно создан`,
@@ -65,6 +67,11 @@ class OfferController {
     } else {
       return next(ApiError.badRequest("offer with that id is not defined"));
     }
+  }
+
+  async getAllOffers(req, res, next) {
+    const offers = await Offer.findAll()
+    res.json({offers})
   }
 
   async getOffer(req, res, next) {

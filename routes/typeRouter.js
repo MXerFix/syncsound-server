@@ -7,4 +7,8 @@ router.post('/', checkRoleMiddleware('ADMIN'), typeController.create)
 router.post('/delete', checkRoleMiddleware('ADMIN'), typeController.delete)
 router.get('/', typeController.getAll)
 
+// router.post('/', typeController.create)
+// router.post('/delete', typeController.delete)
+// router.get('/', typeController.getAll)
+
 module.exports = router
