@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "env NODE_ENV=dev env PORT=3010 nodemon index.js",
+    "prod": "env NODE_ENV=prod env PORT=3000 nodemon index.js",
     "vercel-build": "echo hello"
   },
   "keywords": [],

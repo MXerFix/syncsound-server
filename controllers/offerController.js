@@ -58,10 +58,11 @@ class OfferController {
   }
 
   async changeOfferStatus(req, res, next) {
-    const { status, id } = req.body;
+    const { status, id, trackNum } = req.body;
     const offer = await Offer.findOne({ where: { id: id } });
     if (offer) {
       offer.status = status;
+      offer.trackNum = trackNum;
       await offer.save();
       res.json({ message: `offer status was changed on ${status}` });
     } else {

@@ -89,6 +89,7 @@ const Offer = sequelize.define('offer', {
   delivery_price: { type: DataTypes.INTEGER, allowNull: true },
   status: {type: DataTypes.STRING, allowNull: false, defaultValue: 'Создан'},
   payment: {type: DataTypes.STRING, allowNull: false, defaultValue:'when_get'},
+  trackNum: {type: DataTypes.STRING, allowNull: true},
   userName: {type: DataTypes.STRING, allowNull: false},
   userTel: {type: DataTypes.STRING, allowNull: false},
   userEmail: {type: DataTypes.STRING, allowNull: false},
