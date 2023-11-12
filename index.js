@@ -8,6 +8,7 @@ const cors = require('cors')
 const router = require('./routes/index')
 const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 
+const IS_DEV = process.env.NODE_ENV === 'dev'
 const PORT = process.env.PORT
 const app = express()
 
