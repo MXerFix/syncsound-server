@@ -183,14 +183,19 @@ class DeviceController {
   }
 
   async edit(req, res, next) {
-    const { id, name, description, price, oldPrice } = req.body;
+    const { id, name, description, price, oldPrice, count, bigDescription, deviceAdditions } = req.body;
     const device = await Device.findOne({where: {id: id}})
-    if (device) {
+    const paged_device = await PagedDevice.findOne({where: {deviceId: id}})
+    if (device && paged_device) {
       device.name = name
       device.description = description
       device.price = price
       device.oldPrice = oldPrice
+      device.count = count
+      paged_device.bigDescription = bigDescription
+      paged_device.device_additions = deviceAdditions
       await device.save()
+      await paged_device.save()
       const devices = await Device.findAll()
       res.json({devices, message: 'Товар успешно изменен'})
     } else {
