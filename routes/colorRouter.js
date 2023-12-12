@@ -8,7 +8,8 @@ const router = new Router()
 // router.get('/', brandController.getAll)
 
 router.post('/', checkRoleMiddleware("ADMIN"), ColorController.create)
-router.post('/delete', checkRoleMiddleware("ADMIN"), ColorController.delete)
+router.patch('/', checkRoleMiddleware("ADMIN"), ColorController.edit)
+router.delete('/', checkRoleMiddleware("ADMIN"), ColorController.delete)
 router.get('/', ColorController.getAll)
 
 module.exports = router
