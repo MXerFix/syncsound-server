@@ -14,5 +14,6 @@ router.post('/delete', checkRoleMiddleware('ADMIN'), deviceController.delete)
 router.post('/edit', checkRoleMiddleware("ADMIN"), deviceController.edit)
 router.get('/', deviceController.getAll)
 router.get('/:id', deviceController.getOne)
+router.get('/same/:id', deviceController.getSame)
 
 module.exports = router

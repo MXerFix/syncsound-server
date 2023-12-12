@@ -44,7 +44,7 @@ class DeviceController {
           where: { name: categoryName },
         });
         const _color = await Color.findOne({
-          where: { name: color },
+          where: { id: color },
         });
         const device = await Device.create({
           name,
@@ -57,6 +57,7 @@ class DeviceController {
           brandId: brand.id,
           categoryName,
           categoryId: category.id,
+          defaultColorId: _color.id,
         });
         if (bigDescription && info_file) {
           const device_additions = [];
@@ -159,6 +160,22 @@ class DeviceController {
     return res.json(device);
   }
 
+  async getSame(req, res) {
+    const { id } = req.params;
+    const device = await Device.findOne({ where: { id: id } });
+    if (device) {
+      const devices = await Device.findAll({
+        where: { name: device.name },
+        include: [
+          {model: Color, as: 'default_color'}
+        ]
+      });
+      if (devices) {
+        return res.json(devices);
+      }
+    }
+  }
+
   async delete(req, res) {
     const { id } = req.body;
     const info = await DeviceInfo.findAll({ where: { deviceId: id } });
@@ -183,23 +200,32 @@ class DeviceController {
   }
 
   async edit(req, res, next) {
-    const { id, name, description, price, oldPrice, count, bigDescription, deviceAdditions } = req.body;
-    const device = await Device.findOne({where: {id: id}})
-    const paged_device = await PagedDevice.findOne({where: {deviceId: id}})
+    const {
+      id,
+      name,
+      description,
+      price,
+      oldPrice,
+      count,
+      bigDescription,
+      deviceAdditions,
+    } = req.body;
+    const device = await Device.findOne({ where: { id: id } });
+    const paged_device = await PagedDevice.findOne({ where: { deviceId: id } });
     if (device && paged_device) {
-      device.name = name
-      device.description = description
-      device.price = price
-      device.oldPrice = oldPrice
-      device.count = count
-      paged_device.bigDescription = bigDescription
-      paged_device.device_additions = deviceAdditions
-      await device.save()
-      await paged_device.save()
-      const devices = await Device.findAll()
-      res.json({devices, message: 'Товар успешно изменен'})
+      device.name = name;
+      device.description = description;
+      device.price = price;
+      device.oldPrice = oldPrice;
+      device.count = count;
+      paged_device.bigDescription = bigDescription;
+      paged_device.device_additions = deviceAdditions;
+      await device.save();
+      await paged_device.save();
+      const devices = await Device.findAll();
+      res.json({ devices, message: "Товар успешно изменен" });
     } else {
-      next(ApiError.badRequest("Такого товара не существует"))
+      next(ApiError.badRequest("Такого товара не существует"));
     }
   }
 }
