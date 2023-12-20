@@ -116,7 +116,7 @@ class DeviceController {
       //   return res.json(device);
       // }
     } catch (e) {
-      // console.log(e);
+      console.log(e);
       next(ApiError.badRequest(e.message));
     }
   }
@@ -131,9 +131,10 @@ class DeviceController {
       devices = await Device.findAll({
         include: [
           { model: DeviceInfo, as: "info" },
-          { model: DeviceColor, as: "colors" },
+          // { model: DeviceColor, as: "colors" },
           { model: ImageForColor, as: "images_for_color" },
           { model: PagedDevice, as: "paged_device" },
+          { model: Color, as: "default_color" }
         ],
       });
     }
