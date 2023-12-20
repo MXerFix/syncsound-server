@@ -144,7 +144,7 @@ class DeviceController {
     if (brandId && !typeId) {
       devices = await Device.findAll({ where: { brandId } });
     }
-    return res.json(devices);
+    return res.json(devices.filter((device) => device.count !== -1));
   }
 
   async getOne(req, res) {
