@@ -7,6 +7,7 @@ class EmailSender {
 
   async toMe(req, res, next) {
     const { emailData, emailHTML } = req.body
+    console.log(emailData, emailHTML)
     // console.log(emailData, emailHTML)
     try {
       const data = await resend.emails.send({
@@ -15,7 +16,7 @@ class EmailSender {
         subject: emailData.subject,
         html: emailHTML,
       });
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       console.error(error);
       return next(ApiError.badRequest("Ошибка при отправке сообщения!"))
