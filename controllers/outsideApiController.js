@@ -9,8 +9,8 @@ class OutsideApiController {
     const { payload } = req.body;
     // console.log(payload);
 
-    const shopID = process.env.PAYMENT_SHOP_ID;
-    const secretKey = process.env.PAYMENT_SECRET_KEY;
+    const shopID = process.env.NODE_ENV === 'prod' ? process.env.PAYMENT_SHOP_ID : process.env.PAYMENT_SHOP_ID_TEST;
+    const secretKey = process.env.NODE_ENV === 'prod' ? process.env.PAYMENT_SECRET_KEY : process.env.PAYMENT_SECRET_KEY_TEST;
 
     // console.log(shopID, secretKey);
 
@@ -32,8 +32,8 @@ class OutsideApiController {
   async checkPaymentOfferYOOKASSA(req, res, next) {
     const { id } = req.body;
 
-    const shopID = process.env.PAYMENT_SHOP_ID;
-    const secretKey = process.env.PAYMENT_SECRET_KEY;
+    const shopID = process.env.NODE_ENV === 'prod' ? process.env.PAYMENT_SHOP_ID : process.env.PAYMENT_SHOP_ID_TEST;
+    const secretKey = process.env.NODE_ENV === 'prod' ? process.env.PAYMENT_SECRET_KEY : process.env.PAYMENT_SECRET_KEY_TEST;
 
     const checkout = new YooCheckout({
       shopId: shopID,
